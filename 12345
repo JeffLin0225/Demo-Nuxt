@@ -1,0 +1,62 @@
+進入 Nuxt 世界最推薦學習的 5 個核心模組，這些功能是純 Vue + Vite 沒有、或需要花很大力氣配置的：
+
+1. Nitro 引擎與 Server Routes (BFF 架構)
+這是 Nuxt 的靈魂，也是你作為後端工程師會最感興趣的部分。
+
+學習重點：在 server/api 資料夾下直接寫後端邏輯。
+
+為什麼推薦：
+
+你不需要再額外開一個 Node.js 專案來寫簡單的 API。
+
+安全性：可以在這裡隱藏你的 API Keys 或進行資料清洗，瀏覽器端完全看不到。
+
+自動化：你寫好 server/api/hello.ts，前端直接 useFetch('/api/hello') 就能拿到資料，連路由都不用配。
+
+2. 混合渲染模式 (Hybrid Rendering)
+在純 Vue 裡，你通常只能選擇 CSR。在 Nuxt 裡，你可以針對「每一頁」設定不同的渲染方式。
+
+學習重點：理解什麼時候用 SSR（搜尋引擎優化）、SSG（靜態生成，速度最快）、SWR（背景更新快取）。
+
+實戰場景：
+
+首頁：SSG（秒開）。
+
+產品頁：SWR（快取 1 小時，之後自動更新）。
+
+管理後台：CSR（跟純 Vue 一樣，不需要 SEO）。
+
+3. 自動導入與目錄約定 (Auto-imports & Directory Structure)
+這會徹底改變你的開發節奏。
+
+學習重點：
+
+Components：丟進資料夾就能用，不用再寫 import MyButton from...。
+
+Composables：你自己寫的邏輯函數也能自動導入。
+
+為什麼推薦：你的 <script setup> 會變得異常乾淨，開發效率提升 30% 以上。
+
+4. 路由中間件 (Middleware) & 佈局系統 (Layouts)
+這對大型專案的結構化非常有幫助。
+
+學習重點：
+
+Middleware：在進入頁面之前進行權限校驗（例如：沒登入就踢回首頁）。
+
+Layouts：輕鬆切換「前台模組」與「後台模組」的 UI 架構。
+
+對比：在 Vue + Vite 裡，你可能要在 vue-router 寫很長的導航守衛，Nuxt 則是分檔案管理，清晰得多。
+
+5. Nuxt 模組生態系 (Nuxt Modules)
+這是 Nuxt 的「外掛超市」。
+
+推薦學習：
+
+@nuxtjs/tailwindcss：一鍵配置 Tailwind。
+
+@pinia/nuxt：自動配置狀態管理。
+
+@nuxt/image：自動幫你優化圖片大小（這在純 Vue 裡超難搞）。
+
+為什麼推薦：Nuxt 模組會幫你把所有 plugins 裝好，你只需要在 nuxt.config.ts 寫上名字就能用。
