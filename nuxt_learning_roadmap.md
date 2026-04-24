@@ -20,11 +20,11 @@
 | `useFetch` 資料取得 | ✅ 已完成 | 從 JSONPlaceholder 取資料 |
 | `useRoute` 取參數 | ✅ 已完成 | 在 `poster-[id].vue` 中使用 |
 | TypeScript 介面定義 | ✅ 已完成 | `Post` interface |
-| Server Routes (API) | ⬜ 尚未開始 | — |
+| Server Routes (API) | ✅ 已完成 | 建立了 `hello.ts`, `contact.post.ts`, 還有 `posts` API (BFF 架構) |
 | 混合渲染模式 | ⬜ 尚未開始 | — |
-| Auto-imports | 🟡 間接使用 | 已自動導入 `useFetch`、`useRoute`，但尚未自己寫 composable |
+| Auto-imports | ✅ 已完成 | 已經成功自動導入 `AppHeader`、`PostCard` (無須 import) |
 | Middleware | ⬜ 尚未開始 | — |
-| Layouts | ⬜ 尚未開始 | — |
+| Layouts | ✅ 已完成 | 建立 `default.vue` 佈局與 `<slot />` |
 | Nuxt Modules | ⬜ 尚未開始 | — |
 
 ---
@@ -359,7 +359,7 @@ export default defineNuxtRouteMiddleware((to, from) => {
 ```
 
 ```vue
-<!-- app/layouts/admin.vue -->
+<!-- app/layouts/backstage.vue -->
 <template>
   <div class="layout-admin">
     <aside>
@@ -474,15 +474,13 @@ export const useCounterStore = defineStore('counter', () => {
 
 ```mermaid
 graph LR
-    A["✅ 已完成<br/>File-based Routing<br/>useFetch / useRoute<br/>NuxtLink / NuxtPage"] --> B["📌 下一步<br/>模組三<br/>Auto-imports<br/>Components<br/>Composables"]
-    B --> C["模組一<br/>Server Routes<br/>Nitro 引擎<br/>BFF 架構"]
-    C --> D["模組四<br/>Middleware<br/>Layouts"]
-    D --> E["模組二<br/>Hybrid Rendering<br/>routeRules"]
+    A["✅ 已完成<br/>基礎 Routing<br/>模組三：Auto-imports<br/>模組一：Server Routes"] --> B["📌 下一步<br/>模組四<br/>Middleware<br/>Layouts"]
+    B --> E["模組二<br/>Hybrid Rendering<br/>routeRules"]
     E --> F["模組五<br/>Nuxt Modules<br/>Pinia / Image / Icon"]
 ```
 
 > [!TIP]
-> **建議先從模組三開始**，因為你已經在間接使用 Auto-import（`useFetch`、`useRoute` 都是自動導入的），只是還沒自己建立 `components/` 和 `composables/`。接著進入 Server Routes，這會讓你的 `posts` 頁面可以改用內建 API 代理，不再直接暴露外部 API 網址。
+> **建議下一步：模組四 (Middleware & Layouts)**。既然你已經有了 `AppHeader` 這樣的共用元件，把它放進 Layout 系統中會更加適合！這樣 `app.vue` 就可以變得更簡潔，而且後續要切換不同版型（如後台介面）會更容易。
 
 ---
 

@@ -13,7 +13,7 @@ interface Post {
   body: string
 }
 
-const { data: post } = await useFetch<Post>(`https://jsonplaceholder.typicode.com/posts/${route.params.id}`)
+const { data: post } = await useFetch<Post>(`/api/posts/${route.params.id}`)
 
 </script>
 
