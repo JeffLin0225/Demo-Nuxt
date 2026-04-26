@@ -30,7 +30,7 @@ graph TD
     P2["Phase 2<br/>Server Routes &<br/>Nitro 引擎<br/>⏱ 2-3 天"]
     P3["Phase 3<br/>Middleware &<br/>Layouts<br/>⏱ 1-2 天"]
     P4["Phase 4<br/>混合渲染 &<br/>Nuxt Modules<br/>⏱ 2-3 天"]
-    P5["Phase 5<br/>Cloudflare 整合<br/>D1 + R2 + Workers<br/>⏱ 3-4 天"]
+    P5["Phase 5<br/>Cloudflare 整合<br/>D1 + Vectorize + R2<br/>⏱ 3-4 天"]
     P6["Phase 6<br/>實戰專案<br/>完整網站開發與部署<br/>⏱ 5-7 天"]
 
     P1 --> P2 --> P3 --> P4 --> P5 --> P6
@@ -267,7 +267,7 @@ export default defineEventHandler(async (event) => {
 ## Phase 5：Cloudflare 整合（3-4 天）
 
 > [!IMPORTANT]
-> 這是實現「0 成本部署」的關鍵階段。你需要理解 Cloudflare 的免費方案額度，以及如何將 Nuxt 與 D1、R2、Workers 整合。
+> 這是實現「0 成本部署」的關鍵階段。你需要理解 Cloudflare 的免費方案額度，以及如何將 Nuxt 與 D1、Vectorize、R2、Workers 整合。
 
 ### Cloudflare 免費額度一覽
 
@@ -275,14 +275,15 @@ export default defineEventHandler(async (event) => {
 |------|----------|
 | **Workers** | 每天 100,000 請求 |
 | **D1 資料庫** | 5GB 儲存、500 萬讀取/月、10 萬寫入/月 |
+| **Vectorize** | 3,000 萬次查詢/月、500 萬個向量維度 |
 | **R2 儲存** | 10GB 儲存、無流出費用 |
 | **Pages** | 無限靜態站台、500 次建置/月 |
 
 ### 學習目標
 
-- [ ] 註冊 Cloudflare 帳號並建立 D1 資料庫 + R2 Bucket
-- [ ] 設定 `wrangler.jsonc` 綁定 D1 和 R2
-- [ ] 在 Server Route 中存取 D1（SQL 操作）和 R2（檔案儲存）
+- [ ] 註冊 Cloudflare 帳號並建立 D1 資料庫、Vectorize 索引 + R2 Bucket
+- [ ] 設定 `wrangler.jsonc` 綁定 D1、Vectorize 和 R2
+- [ ] 在 Server Route 中存取 D1（SQL 操作）、Vectorize（向量搜尋）和 R2（檔案儲存）
 - [ ] 使用 `cloudflare_pages` preset 建置與部署
 - [ ] 了解 NuxtHub 作為管理工具的角色
 
@@ -328,6 +329,12 @@ export default defineEventHandler(async (event) => {
 ├── 在 Cloudflare Dashboard 設定 production bindings
 ├── 執行 D1 migrations：npx wrangler d1 migrations apply my-db
 └── ✅ 驗證：線上網站可正常存取 D1 和 R2
+
+練習 5-6：Vectorize 向量資料庫操作 (AI 擴充)
+├── 建立 Vectorize 索引：npx wrangler vectorize create my-index --dimensions=768 --metric=cosine
+├── 綁定 wrangler.jsonc：{ "vectorize": [{ "binding": "VECTORIZE", "index_name": "my-index" }] }
+├── 建立 server/api/search.ts，透過 event.context.cloudflare.env.VECTORIZE 存取
+└── ✅ 驗證：能夠寫入向量並進行相似度搜尋
 ```
 
 ### D1 操作程式碼參考
@@ -367,6 +374,7 @@ export default defineEventHandler(async (event) => {
 ### 階段驗收標準
 
 - [ ] D1 資料庫 CRUD 在本地與線上都正常
+- [ ] Vectorize 向量寫入與搜尋正常
 - [ ] R2 檔案上傳/讀取正常
 - [ ] 網站成功部署到 Cloudflare，可透過公開 URL 存取
 - [ ] 確認所有資源都在免費額度內
