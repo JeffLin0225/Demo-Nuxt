@@ -1,6 +1,7 @@
 <template>
   <div>
     <AppHeader/>
+
     <main style="padding: 20px; min-height: 80vh;">
 <!--      每一頁不同會注入這裡-->
       <slot />

@@ -44,10 +44,10 @@ graph TD
 
 ### 學習目標
 
-- [ ] 理解 Nuxt 自動導入機制（components / composables / utils）
-- [ ] 建立可重複使用的元件
-- [ ] 建立自訂 Composable
-- [ ] 建立工具函數
+- ✅ 理解 Nuxt 自動導入機制（components / composables / utils）
+- ✅ 建立可重複使用的元件
+- ✅ 建立自訂 Composable
+- ✅ 建立工具函數
 
 ### 關鍵目錄結構
 
@@ -82,9 +82,9 @@ app/
 
 ### 階段驗收標準
 
-- [ ] `app/components/` 中至少有 2 個元件，且在頁面中不用 import 就能使用
-- [ ] `app/composables/` 中有 1 個自訂 composable，不用 import 就能使用
-- [ ] `app/utils/` 中有 1 個工具函數，不用 import 就能使用
+- ✅ `app/components/` 中至少有 2 個元件，且在頁面中不用 import 就能使用
+- ✅ `app/composables/` 中有 1 個自訂 composable，不用 import 就能使用
+- ✅ `app/utils/` 中有 1 個工具函數，不用 import 就能使用
 
 ---
 
@@ -94,10 +94,10 @@ app/
 
 ### 學習目標
 
-- [ ] 理解 Nitro 引擎與 server/api 的運作原理
-- [ ] 建立 GET / POST / 帶參數 的 Server Route
-- [ ] 使用環境變數保護敏感資訊
-- [ ] 理解 `useFetch` 搭配 Server Route 的最佳實踐
+- ✅ 理解 Nitro 引擎與 server/api 的運作原理
+- ✅ 建立 GET / POST / 帶參數 的 Server Route
+- ✅ 使用環境變數保護敏感資訊
+- ✅ 理解 `useFetch` 搭配 Server Route 的最佳實踐
 
 ### 關鍵概念
 
@@ -155,9 +155,17 @@ export default defineEventHandler(async (event) => {
 
 ### 階段驗收標準
 
-- [ ] 至少 3 個 Server Route 正常運作（GET / POST / 帶參數）
-- [ ] 原有 posts 頁面改用 server/api 代理，不再直接呼叫外部 API
-- [ ] 環境變數正確隱藏在 server 端
+- ✅ 至少 3 個 Server Route 正常運作（GET / POST / 帶參數）
+- ✅ 原有 posts 頁面改用 server/api 代理，不再直接呼叫外部 API
+- ✅ 環境變數正確隱藏在 server 端
+
+### 💡 特別補充：環境變數 (.env) 的四種守備範圍
+我們在實戰中學到了以下重要的全端變數觀念：
+1. **什麼都沒加** (如 `API_KEY`)：Node.js 環境專屬，前端的 Vite 和 Nuxt 都不會自動載入。
+2. **`VITE_` 開頭**：Vite 專屬，打包時「寫死」到前端檔案中 (`import.meta.env`)。
+3. **`NUXT_` 開頭**：Nuxt 專屬，執行時即時讀取，只留在**後端/伺服器** (`useRuntimeConfig`)。
+4. **`NUXT_PUBLIC_` 開頭**：Nuxt 專屬，執行時即時讀取，並且**允許送到前端** (`useRuntimeConfig().public`)。
+*註：NUXT 系列的 public 變數建議在 `nuxt.config.ts` 中宣告預設值。底線命名會自動轉換為小駝峰 (camelCase)。*
 
 ---
 
@@ -486,6 +494,7 @@ export default defineNuxtConfig({
 | [Nitro 文件](https://nitro.build) | Server Route 進階用法 |
 | [Nuxt 模組總覽](https://nuxt.com/modules) | 所有可用模組 |
 | [Cloudflare D1 文件](https://developers.cloudflare.com/d1/) | 資料庫操作 |
+| [Cloudflare Vectorize 文件](https://developers.cloudflare.com/vectorize/) | 向量資料庫（AI 應用） |
 | [Cloudflare R2 文件](https://developers.cloudflare.com/r2/) | 檔案儲存 |
 | [Cloudflare Workers 文件](https://developers.cloudflare.com/workers/) | 部署與運行 |
 | [NuxtHub](https://hub.nuxt.com/) | Nuxt + Cloudflare 管理平台 |
