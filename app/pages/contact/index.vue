@@ -5,7 +5,7 @@
     <p>網站描述： {{appDescription}}</p>
     <p>API密鑰： {{appkey}}</p>
     <p>(這個要build才可以改變)API密鑰測試： {{VITE_API_KEY}}</p>
-    <p>(這個要build才可以改變, 沒加VITE看不到)API密鑰測試： {{API_KEY}}</p>
+    <p>(這個要build才可以改變, 沒加VITE看不到)API密鑰測試： {{APIKEY_ENV}}</p>
 
   </div>
 </template>
