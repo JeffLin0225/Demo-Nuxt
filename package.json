@@ -3,11 +3,15 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "build": "nuxt build",
     "dev": "nuxt dev",
+    "dev:cf": "wrangler pages dev -- npm run dev",
+    "build": "nuxt build",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "build:cf": "nuxt build --preset cloudflare_pages",
+    "cf:preview": "wrangler pages dev dist",
+    "cf:deploy": "wrangler pages deploy dist"
   },
   "dependencies": {
     "nuxt": "^4.4.2",

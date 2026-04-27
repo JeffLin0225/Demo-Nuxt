@@ -1,0 +1,9 @@
+{
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "demo-db",
+      "database_id": "2da61220-5185-4781-bd5b-9c19f16a6167"
+    }
+  ]
+}

@@ -280,41 +280,40 @@ export default defineEventHandler(async (event) => {
 | **Pages** | 無限靜態站台、500 次建置/月 |
 
 ### 學習目標
-
-- [ ] 註冊 Cloudflare 帳號並建立 D1 資料庫、Vectorize 索引 + R2 Bucket
-- [ ] 設定 `wrangler.jsonc` 綁定 D1、Vectorize 和 R2
-- [ ] 在 Server Route 中存取 D1（SQL 操作）、Vectorize（向量搜尋）和 R2（檔案儲存）
-- [ ] 使用 `cloudflare_pages` preset 建置與部署
-- [ ] 了解 NuxtHub 作為管理工具的角色
+- [x] 註冊 Cloudflare 帳號並建立 D1 資料庫
+- [ ] 建立 Vectorize 索引 + R2 Bucket
+- [x] 設定 `wrangler.json` 綁定 D1
+- [ ] 設定 `wrangler.json` 綁定 Vectorize 和 R2
+- [x] 在 Server Route 中存取 D1（SQL 操作）
+- [ ] 在 Server Route 中存取 Vectorize（向量搜尋）和 R2（檔案儲存）
+- [x] 使用 `cloudflare_pages` preset 建置與部署 (`npm run cf:preview`)
+- [x] 了解 NuxtHub 作為管理工具的角色
 
 ### 練習清單
 
 ```
 練習 5-1：環境設定
-├── 安裝 wrangler：npm install -D wrangler
-├── 登入 Cloudflare：npx wrangler login
-├── 建立 D1 資料庫：npx wrangler d1 create my-db
+├── ✅ 安裝 wrangler：npm install -D wrangler
+├── ✅ 登入 Cloudflare：npx wrangler login
+├── ✅ 建立 D1 資料庫：npx wrangler d1 create demo-db
 ├── 建立 R2 Bucket：npx wrangler r2 bucket create my-bucket
-└── ✅ 驗證：在 Cloudflare Dashboard 看到資源
+└── ✅ 驗證：在 Cloudflare Dashboard 看到 D1 資源
 
 練習 5-2：設定 Wrangler 綁定
-├── 建立 wrangler.jsonc
+├── ✅ 建立 wrangler.json
 │   {
 │     "d1_databases": [
-│       { "binding": "DB", "database_name": "my-db", "database_id": "xxx" }
-│     ],
-│     "r2_buckets": [
-│       { "binding": "MY_BUCKET", "bucket_name": "my-bucket" }
+│       { "binding": "DB", "database_name": "demo-db", "database_id": "xxx" }
 │     ]
 │   }
-├── 設定 nuxt.config.ts：nitro: { preset: 'cloudflare_pages' }
-└── ✅ 驗證：本地開發可以存取 bindings
+├── ✅ 設定 package.json：建立 `build:cf` 與 `cf:preview`
+└── ✅ 驗證：本地開發 (`cf:preview`) 可以存取 bindings
 
 練習 5-3：D1 資料庫操作
-├── 建立 migrations 資料夾並寫 SQL schema
-├── 建立 server/api/users.get.ts（讀取）
-├── 建立 server/api/users.post.ts（新增）
-├── 透過 event.context.cloudflare.env.DB 存取
+├── ✅ 建立 migrations 資料夾並寫 SQL schema
+├── ✅ 建立 server/api/db/users.get.ts（讀取）
+├── ✅ 建立 server/api/db/users.post.ts（新增）
+├── ✅ 透過 event.context.cloudflare.env.DB 存取
 └── ✅ 驗證：CRUD 操作正常
 
 練習 5-4：R2 檔案儲存
