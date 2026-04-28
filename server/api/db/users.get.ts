@@ -1,7 +1,12 @@
+import {useDB} from "~/utils/useDB";
+
+/**
+ * 查詢所有使用者
+ * */
 export default defineEventHandler(async (event) => {
 
     // 使用 untils 的共用模組
-    const db = event.context.cloudflare.env.DB;
+    const db = useDB(event);
 
     try {
 

@@ -281,13 +281,17 @@ export default defineEventHandler(async (event) => {
 
 ### 學習目標
 - [x] 註冊 Cloudflare 帳號並建立 D1 資料庫
-- [ ] 建立 Vectorize 索引 + R2 Bucket
+- [x] 建立 R2 Bucket（`nuxt-demo-bucket`）
+- [ ] 建立 Vectorize 索引
 - [x] 設定 `wrangler.json` 綁定 D1
-- [ ] 設定 `wrangler.json` 綁定 Vectorize 和 R2
+- [x] 設定 `wrangler.json` 綁定 R2
+- [ ] 設定 `wrangler.json` 綁定 Vectorize
 - [x] 在 Server Route 中存取 D1（SQL 操作）
-- [ ] 在 Server Route 中存取 Vectorize（向量搜尋）和 R2（檔案儲存）
+- [x] 在 Server Route 中存取 R2（檔案儲存）
+- [ ] 在 Server Route 中存取 Vectorize（向量搜尋）
 - [x] 使用 `cloudflare_pages` preset 建置與部署 (`npm run cf:preview`)
 - [x] 了解 NuxtHub 作為管理工具的角色
+- [x] 了解本機操作遠端 D1 的方式（CLI `--remote` / `wrangler.json` `remote: true`）
 
 ### 練習清單
 
@@ -296,8 +300,8 @@ export default defineEventHandler(async (event) => {
 ├── ✅ 安裝 wrangler：npm install -D wrangler
 ├── ✅ 登入 Cloudflare：npx wrangler login
 ├── ✅ 建立 D1 資料庫：npx wrangler d1 create demo-db
-├── 建立 R2 Bucket：npx wrangler r2 bucket create my-bucket
-└── ✅ 驗證：在 Cloudflare Dashboard 看到 D1 資源
+├── ✅ 建立 R2 Bucket：npx wrangler r2 bucket create nuxt-demo-bucket
+└── ✅ 驗證：在 Cloudflare Dashboard 看到 D1 與 R2 資源
 
 練習 5-2：設定 Wrangler 綁定
 ├── ✅ 建立 wrangler.json
@@ -317,10 +321,12 @@ export default defineEventHandler(async (event) => {
 └── ✅ 驗證：CRUD 操作正常
 
 練習 5-4：R2 檔案儲存
-├── 建立 server/api/upload.post.ts（上傳檔案到 R2）
-├── 建立 server/api/files/[key].get.ts（讀取檔案）
-├── 透過 event.context.cloudflare.env.MY_BUCKET 存取
-└── ✅ 驗證：上傳和下載檔案正常
+├── ✅ 建立 server/api/bucket/upload.post.ts（上傳檔案到 R2）
+├── ✅ 建立 server/api/bucket/index.get.ts（列出檔案）
+├── ✅ 建立 app/composables/useBucketApi.ts（前端 API 封裝）
+├── ✅ 建立 app/utils/fileNameCleaning.ts（檔名清洗防注入）
+├── ✅ 透過 useBucket(event) 共用工具存取 MY_BUCKET
+└── ✅ 驗證：上傳與列表正常（下載路由尚未建立）
 
 練習 5-5：部署到 Cloudflare
 ├── npx nuxi build --preset=cloudflare_pages
@@ -372,9 +378,9 @@ export default defineEventHandler(async (event) => {
 
 ### 階段驗收標準
 
-- [ ] D1 資料庫 CRUD 在本地與線上都正常
+- [x] D1 資料庫 CRUD 在本地與線上都正常
 - [ ] Vectorize 向量寫入與搜尋正常
-- [ ] R2 檔案上傳/讀取正常
+- [x] R2 檔案上傳/列表正常
 - [ ] 網站成功部署到 Cloudflare，可透過公開 URL 存取
 - [ ] 確認所有資源都在免費額度內
 
@@ -404,7 +410,7 @@ nuxt-demo/
 │   │   └── ui/            # UI 元件庫
 │   ├── composables/       # 共用邏輯
 │   │   ├── useAuth.ts
-│   │   └── useD1.ts
+│   │   └── useDB.ts
 │   ├── layouts/           # 佈局
 │   │   ├── default.vue
 │   │   ├── admin.vue
