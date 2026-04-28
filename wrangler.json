@@ -1,9 +1,17 @@
 {
-  "d1_databases": [
-    {
-      "binding": "DB",
-      "database_name": "demo-db",
-      "database_id": "2da61220-5185-4781-bd5b-9c19f16a6167"
-    }
-  ]
+	"d1_databases": [
+		{
+			"binding": "DB",
+			"database_name": "demo-db",
+			"database_id": "2da61220-5185-4781-bd5b-9c19f16a6167",
+			"remote": true
+		}
+	],
+	"r2_buckets": [
+      {
+        "binding": "MY_BUCKET",
+        "bucket_name": "nuxt-demo-bucket",
+        "remote": true
+      }
+    ]
 }

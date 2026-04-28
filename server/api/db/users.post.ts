@@ -1,9 +1,12 @@
-import {useD1} from "~/utils/dbRepo";
+import {useDB} from "../../../app/utils/useDB";
 
+/**
+ * 新增使用者
+ * */
 export  default  defineEventHandler(async (event)=> {
 
     // 使用 untils 的共用模組
-    const db = useD1(event)
+    const db = useDB(event)
 
     const body = await readBody(event);
     if (!body.user_name || !body.user_email) {
