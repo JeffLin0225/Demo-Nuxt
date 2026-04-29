@@ -8,10 +8,21 @@
 		}
 	],
 	"r2_buckets": [
-      {
-        "binding": "MY_BUCKET",
-        "bucket_name": "nuxt-demo-bucket",
-        "remote": true
-      }
-    ]
+		{
+			"binding": "MY_BUCKET",
+			"bucket_name": "nuxt-demo-bucket",
+			"remote": true
+		}
+	],
+	"vectorize": [
+		{
+			"binding": "VECTORIZE",
+			"index_name": "demo-docs-index",
+			"remote": true
+		}
+	],
+	"ai": {
+		"binding": "AI",
+		"remote": true
+	}
 }

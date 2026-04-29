@@ -275,23 +275,27 @@ export default defineEventHandler(async (event) => {
 |------|----------|
 | **Workers** | 每天 100,000 請求 |
 | **D1 資料庫** | 5GB 儲存、500 萬讀取/月、10 萬寫入/月 |
-| **Vectorize** | 3,000 萬次查詢/月、500 萬個向量維度 |
+| **Vectorize** | 5,000 萬查詢維度/月、1,000 萬儲存維度 |
+| **Workers AI** | 每天 10,000 Neurons（計算單位）|
 | **R2 儲存** | 10GB 儲存、無流出費用 |
 | **Pages** | 無限靜態站台、500 次建置/月 |
 
 ### 學習目標
 - [x] 註冊 Cloudflare 帳號並建立 D1 資料庫
 - [x] 建立 R2 Bucket（`nuxt-demo-bucket`）
-- [ ] 建立 Vectorize 索引
+- [x] 建立 Vectorize 索引（`demo-docs-index`，1024 維，cosine）
 - [x] 設定 `wrangler.json` 綁定 D1
 - [x] 設定 `wrangler.json` 綁定 R2
-- [ ] 設定 `wrangler.json` 綁定 Vectorize
+- [x] 設定 `wrangler.json` 綁定 Vectorize + Workers AI
 - [x] 在 Server Route 中存取 D1（SQL 操作）
 - [x] 在 Server Route 中存取 R2（檔案儲存）
-- [ ] 在 Server Route 中存取 Vectorize（向量搜尋）
+- [x] 在 Server Route 中存取 Vectorize（向量寫入）← 搜尋 API 待完成
 - [x] 使用 `cloudflare_pages` preset 建置與部署 (`npm run cf:preview`)
 - [x] 了解 NuxtHub 作為管理工具的角色
 - [x] 了解本機操作遠端 D1 的方式（CLI `--remote` / `wrangler.json` `remote: true`）
+- [x] 理解 Vectorize vs ChromaDB 的差異（Vectorize 不內建 Embedding）
+- [x] 理解 Workers AI 的角色（翻譯官：文字 ↔ 向量）
+- [x] 理解 metadata 與向量搜尋的關係（metadata 是過濾器，不參與相似度比對）
 
 ### 練習清單
 
@@ -336,10 +340,16 @@ export default defineEventHandler(async (event) => {
 └── ✅ 驗證：線上網站可正常存取 D1 和 R2
 
 練習 5-6：Vectorize 向量資料庫操作 (AI 擴充)
-├── 建立 Vectorize 索引：npx wrangler vectorize create my-index --dimensions=768 --metric=cosine
-├── 綁定 wrangler.jsonc：{ "vectorize": [{ "binding": "VECTORIZE", "index_name": "my-index" }] }
-├── 建立 server/api/search.ts，透過 event.context.cloudflare.env.VECTORIZE 存取
-└── ✅ 驗證：能夠寫入向量並進行相似度搜尋
+├── ✅ 建立 Vectorize 索引：npx wrangler vectorize create demo-docs-index --dimensions=1024 --metric=cosine
+├── ✅ 綁定 wrangler.json：vectorize（VECTORIZE）+ ai（AI），兩者都需 remote: true
+├── ✅ 建立 D1 documents 表：migrations/0002_create_documents_table.sql
+├── ✅ 建立共用工具：app/utils/useVectorize.ts、app/utils/useAi.ts
+├── ✅ 建立 server/api/vectors/insert.post.ts（文字 → Workers AI embedding → Vectorize + D1）
+├── ✅ 使用 Embedding 模型：@cf/baai/bge-m3（1024 維，多語言）
+├── ✅ 驗證插入：curl 測試回傳 success + mutationId + dimensions=1024
+├── ✅ 驗證向量：npx wrangler vectorize info demo-docs-index（vectorCount=5）
+├── 建立 server/api/vectors/search.get.ts（D1 精確搜尋 + Vectorize 語意推薦）
+└── 驗證：搜尋功能正常，D1 比對 + AI 推薦雙軌輸出
 ```
 
 ### D1 操作程式碼參考
@@ -379,8 +389,9 @@ export default defineEventHandler(async (event) => {
 ### 階段驗收標準
 
 - [x] D1 資料庫 CRUD 在本地與線上都正常
-- [ ] Vectorize 向量寫入與搜尋正常
+- [x] Vectorize 向量寫入正常（搜尋 API 待完成）
 - [x] R2 檔案上傳/列表正常
+- [ ] Vectorize 語意搜尋 API 完成並驗證
 - [ ] 網站成功部署到 Cloudflare，可透過公開 URL 存取
 - [ ] 確認所有資源都在免費額度內
 
