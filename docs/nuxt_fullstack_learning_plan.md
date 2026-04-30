@@ -196,8 +196,8 @@ export default defineEventHandler(async (event) => {
 └── ✅ 驗證：不同頁面顯示不同 Layout
 
 練習 3-3：全域 Middleware
-├── 建立 app/middleware/log.global.ts
-├── 記錄每次路由變化 from.path → to.path
+├── ✅ 建立 app/middleware/log.global.ts
+├── ✅ 記錄每次路由變化 from.path → to.path
 └── ✅ 驗證：console 中看到路由變化記錄
 ```
 
@@ -205,7 +205,7 @@ export default defineEventHandler(async (event) => {
 
 - [x] auth middleware 在受保護頁面正確攔截未登入使用者
 - [x] 至少 2 種不同 Layout 正常切換
-- [ ] 全域 middleware 在每次路由變化時都會執行
+- [x] 全域 middleware 在每次路由變化時都會執行
 
 ---
 
