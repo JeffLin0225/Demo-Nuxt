@@ -175,24 +175,24 @@ export default defineEventHandler(async (event) => {
 
 ### 學習目標
 
-- [ ] 理解具名 / 全域 / 行內三種 Middleware
-- [ ] 建立 Layout 系統（default / admin / blank）
-- [ ] 用 `definePageMeta` 指定 middleware 和 layout
+- [x] 理解具名 / 全域 / 行內三種 Middleware
+- [x] 建立 Layout 系統（default / admin / blank）
+- [x] 用 `definePageMeta` 指定 middleware 和 layout
 
 ### 練習清單
 
 ```
 練習 3-1：建立登入驗證 Middleware
-├── 建立 app/middleware/auth.ts
-├── 檢查 useState('isAuth') 是否為 true
-├── 沒登入導向 /login
+├── ✅ 建立 app/middleware/auth.ts
+├── ✅ 檢查 useState('isAuth') 是否為 true
+├── ✅ 沒登入導向 /login
 └── ✅ 驗證：受保護頁面未登入時自動跳轉
 
 練習 3-2：建立 Layout 系統
-├── 建立 app/layouts/default.vue（Header + Footer + <slot />）
-├── 建立 app/layouts/admin.vue（Sidebar + <slot />）
+├── ✅ 建立 app/layouts/default.vue（Header + Footer + <slot />）
+├── ✅ 建立 app/layouts/admin.vue（Sidebar + <slot />）
 ├── 建立 app/layouts/blank.vue（純 <slot />）
-├── 前台頁面用 default，後台用 admin，登入頁用 blank
+├── ✅ 前台頁面用 default，後台用 admin，登入頁用 blank
 └── ✅ 驗證：不同頁面顯示不同 Layout
 
 練習 3-3：全域 Middleware
@@ -203,8 +203,8 @@ export default defineEventHandler(async (event) => {
 
 ### 階段驗收標準
 
-- [ ] auth middleware 在受保護頁面正確攔截未登入使用者
-- [ ] 至少 2 種不同 Layout 正常切換
+- [x] auth middleware 在受保護頁面正確攔截未登入使用者
+- [x] 至少 2 種不同 Layout 正常切換
 - [ ] 全域 middleware 在每次路由變化時都會執行
 
 ---
