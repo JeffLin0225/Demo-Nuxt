@@ -348,8 +348,8 @@ export default defineEventHandler(async (event) => {
 ├── ✅ 使用 Embedding 模型：@cf/baai/bge-m3（1024 維，多語言）
 ├── ✅ 驗證插入：curl 測試回傳 success + mutationId + dimensions=1024
 ├── ✅ 驗證向量：npx wrangler vectorize info demo-docs-index（vectorCount=5）
-├── 建立 server/api/vectors/search.get.ts（D1 精確搜尋 + Vectorize 語意推薦）
-└── 驗證：搜尋功能正常，D1 比對 + AI 推薦雙軌輸出
+├── ✅ 建立 server/api/vectors/search.get.ts（D1 精確搜尋 + Vectorize 語意推薦）
+└── ✅ 驗證：搜尋功能正常，D1 比對 + AI 推薦雙軌輸出
 ```
 
 ### D1 操作程式碼參考
@@ -391,7 +391,7 @@ export default defineEventHandler(async (event) => {
 - [x] D1 資料庫 CRUD 在本地與線上都正常
 - [x] Vectorize 向量寫入正常（搜尋 API 待完成）
 - [x] R2 檔案上傳/列表正常
-- [ ] Vectorize 語意搜尋 API 完成並驗證
+- [x] Vectorize 語意搜尋 API 完成並驗證（D1 + AI 雙軌輸出）
 - [ ] 網站成功部署到 Cloudflare，可透過公開 URL 存取
 - [ ] 確認所有資源都在免費額度內
 

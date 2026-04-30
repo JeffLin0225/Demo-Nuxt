@@ -145,6 +145,7 @@ const ai = event.context.cloudflare.env.AI;
 | 功能 | 檔案位置 |
 |------|----------|
 | 插入 API（文字→embedding→Vectorize+D1） | `server/api/vectors/insert.post.ts` |
+| 搜尋 API（D1 精確 + Vectorize 推薦） | `server/api/vectors/search.get.ts` |
 | Vectorize 共用工具 | `app/utils/useVectorize.ts` |
 | Workers AI 共用工具 | `app/utils/useAi.ts` |
 | D1 documents 表 | `migrations/0002_create_documents_table.sql` |
@@ -153,7 +154,9 @@ const ai = event.context.cloudflare.env.AI;
 
 **插入流程**：前端傳文字 → `ai.run("@cf/baai/bge-m3", { text: [...] })` 轉向量 → `vectorize.upsert([{ id, values, metadata }])` 存向量 → `db.prepare("INSERT ...").run()` 存原文
 
-**搜尋流程**（待完成）：搜尋詞 → AI 轉向量 → `vectorize.query(vector, { topK, filter })` 找相似 → 用 ID 去 D1 撈原文
+**搜尋流程 (雙軌並行)**：
+1. **D1 精確比對**：`db.prepare("... LIKE %q%")` 找完全包含關鍵字的文件（極快）。
+2. **AI 語意推薦**：搜尋詞 → `ai.run(...)` 轉向量 → `vectorize.query(...)` 找最相似 ID → 用 ID 陣列回 D1 `IN (?,?)` 撈原文 → 合併 AI 的 `score` 後回傳。
 
 ---
 
