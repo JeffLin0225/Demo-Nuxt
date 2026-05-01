@@ -1,6 +1,6 @@
 # 🎯 Nuxt 全端零成本網站 — 綜合學習計劃
 
-> **最終目標：** 以 **0 成本**完成一個全端網站，使用 Nuxt 混合渲染（CSR + SSR），部署到 Cloudflare Workers + D1 資料庫 + R2 儲存
+> **最終目標：** 以 **0 成本**完成一個全端網站，使用 Nuxt 混合渲染（SSG + SSR + SWR + CSR），部署到 Cloudflare Workers + D1 資料庫 + R2 儲存
 >
 > **學習者背景：** Vue + Vite 開發經驗，具後端工程師背景
 >
@@ -14,11 +14,22 @@
 |------|------|------|
 | 專案初始化（Nuxt 4） | ✅ | — |
 | File-based Routing | ✅ | `pages/index.vue`, `about.vue` |
-| 動態路由 `[id]` | ✅ | `blog/[id].vue`, `posts/poster-[id].vue` |
+| 動態路由 `[id]` | ✅ | `posts/poster-[id].vue` |
 | `<NuxtLink>` / `<NuxtPage>` | ✅ | — |
 | `useFetch` 資料取得 | ✅ | JSONPlaceholder |
 | `useRoute` 取參數 | ✅ | — |
 | TypeScript 介面定義 | ✅ | `Post` interface |
+
+---
+
+## 📍 目前實際進度定位（依專案現況）
+
+> 你目前進度不是線性停在某一個 Phase，而是「**Phase 4 部分完成 + Phase 5 後段**」：
+>
+> - `routeRules` 已設定並套用到多種路由（Phase 4 已啟動，主線為 `posts`）
+> - D1 / R2 / Vectorize / Workers AI 已完成主要串接（Phase 5 核心已完成）
+> - 尚待補齊：Nuxt Modules（Pinia/Image/Icon）、公開部署驗收、工程化品質（型別/錯誤格式/測試）
+> - 今日新增：Tailwind 導入與 Preflight reset 實戰（已完成）
 
 ---
 
@@ -215,8 +226,8 @@ export default defineEventHandler(async (event) => {
 
 ### 學習目標
 
-- [ ] 理解 SSR / SSG / SWR / CSR / ISR 五種渲染模式
-- [ ] 在 `nuxt.config.ts` 中用 `routeRules` 設定混合渲染
+- [x] 理解 SSR / SSG / SWR / CSR / ISR 五種渲染模式（已開始實作）
+- [x] 在 `nuxt.config.ts` 中用 `routeRules` 設定混合渲染
 - [ ] 安裝並使用核心 Nuxt Modules（Pinia、Image、Icon）
 
 ### 渲染策略對照表
@@ -235,7 +246,7 @@ export default defineEventHandler(async (event) => {
 練習 4-1：設定混合渲染規則
 ├── 在 nuxt.config.ts 設定 routeRules
 │   ├── '/'         → prerender: true（SSG）
-│   ├── '/admin/**' → ssr: false（CSR）
+│   ├── '/backstage/**' → ssr: false（CSR）
 │   └── '/posts/**' → swr: 3600（SWR）
 ├── 用「檢視原始碼」比較 SSR vs CSR 頁面的 HTML
 └── ✅ 驗證：SSR 頁面有完整 HTML，CSR 頁面只有空殼
@@ -258,7 +269,7 @@ export default defineEventHandler(async (event) => {
 
 ### 階段驗收標準
 
-- [ ] `routeRules` 正確設定 3 種以上渲染模式
+- [x] `routeRules` 正確設定 3 種以上渲染模式
 - [ ] Pinia store 跨頁面狀態共享正常
 - [ ] 至少安裝 2 個 Nuxt Module 並正常使用
 
@@ -289,7 +300,7 @@ export default defineEventHandler(async (event) => {
 - [x] 設定 `wrangler.json` 綁定 Vectorize + Workers AI
 - [x] 在 Server Route 中存取 D1（SQL 操作）
 - [x] 在 Server Route 中存取 R2（檔案儲存）
-- [x] 在 Server Route 中存取 Vectorize（向量寫入）← 搜尋 API 待完成
+- [x] 在 Server Route 中存取 Vectorize（向量寫入 + 搜尋）
 - [x] 使用 `cloudflare_pages` preset 建置與部署 (`npm run cf:preview`)
 - [x] 了解 NuxtHub 作為管理工具的角色
 - [x] 了解本機操作遠端 D1 的方式（CLI `--remote` / `wrangler.json` `remote: true`）
@@ -389,11 +400,66 @@ export default defineEventHandler(async (event) => {
 ### 階段驗收標準
 
 - [x] D1 資料庫 CRUD 在本地與線上都正常
-- [x] Vectorize 向量寫入正常（搜尋 API 待完成）
+- [x] Vectorize 向量寫入正常
 - [x] R2 檔案上傳/列表正常
 - [x] Vectorize 語意搜尋 API 完成並驗證（D1 + AI 雙軌輸出）
 - [ ] 網站成功部署到 Cloudflare，可透過公開 URL 存取
 - [ ] 確認所有資源都在免費額度內
+
+---
+
+## Phase 4.5：工程化補強（建議先做，2-4 天）
+
+> **為什麼現在要插這階段：** 你功能已經做很多，現在最值得投資的是「可維護、可部署、可驗證」，這會直接決定你能不能穩定進入 Phase 6。
+
+### 學習目標
+
+- [ ] 補齊至少 2 個 Nuxt Modules（建議 Pinia + Image）
+- [ ] 統一 API 回應格式（成功/錯誤結構一致）
+- [ ] 主要 API 移除 `any`，補上輸入/輸出型別
+- [ ] 完成公開部署一次（含 bindings/migrations 驗證）
+- [ ] 建立最小測試清單（手動或自動化皆可）
+
+### 練習清單
+
+```
+練習 4.5-1：Nuxt Modules 補齊
+├── 安裝 @pinia/nuxt、@nuxt/image（可再加 @nuxt/icon）
+├── 建立 1 個簡單 store（例如 auth 或 counter）
+└── ✅ 驗證：跨頁狀態共享、NuxtImg 正常渲染
+
+練習 4.5-2：API 回應格式一致化
+├── 統一 success/error 回傳結構
+├── 建立可重用的錯誤處理方式（createError + 統一欄位）
+└── ✅ 驗證：db/users、bucket、vectors 三類 API 格式一致
+
+練習 4.5-3：型別補強
+├── 為 users/documents/upload/search 建立型別介面
+├── 將關鍵 API 中的 any 降到最低
+└── ✅ 驗證：TypeScript 檢查不報型別錯誤
+
+練習 4.5-4：部署驗收
+├── build:cf + cf:deploy 完整跑一次
+├── 確認 production bindings 與 D1 migration
+└── ✅ 驗證：公開 URL 可存取，核心功能可用
+```
+
+### 階段驗收標準
+
+- [ ] 至少 2 個 Nuxt Modules 正常使用
+- [ ] 3 類 API（DB/R2/Vector）回應格式一致
+- [ ] 主要路徑完成 1 次公開部署驗收
+- [ ] 有一份可重複執行的驗收 checklist（文件化）
+
+---
+
+## 今日里程碑回顧（最新）
+
+- [x] TailwindCSS 完成安裝與全域接線（`@nuxtjs/tailwindcss` + `main.css`）
+- [x] 釐清並修正 Preflight reset 導致原生 `a` / `button` 樣式消失
+- [x] 首頁與後台上傳頁改為 Tailwind 風格，並保留練習可讀性
+- [x] 專案路由主線統一為 `posts`，移除 `blog` 練習路由
+- [x] `routeRules` 目前採混合策略：`/posts/**` SWR、`/backstage/**` CSR、其餘預設 SSR
 
 ---
 
@@ -406,7 +472,7 @@ export default defineEventHandler(async (event) => {
 
 | 方向 | 涵蓋技術 | 複雜度 |
 |------|----------|--------|
-| **個人部落格** | SSG/ISR + D1 + Markdown | ⭐⭐ |
+| **內容網站（posts 主線）** | SSR/SWR + D1 + API | ⭐⭐ |
 | **小型 SaaS 工具** | SSR + D1 + R2 + Auth | ⭐⭐⭐ |
 | **作品集網站** | SSG + R2（圖片儲存） | ⭐ |
 
@@ -431,8 +497,8 @@ nuxt-demo/
 │   ├── pages/             # 頁面（混合渲染）
 │   │   ├── index.vue      # SSG — 首頁
 │   │   ├── about.vue      # SSG — 關於
-│   │   ├── blog/          # ISR — 部落格
-│   │   ├── admin/         # CSR — 後台管理
+│   │   ├── posts/         # SWR — 文章頁
+│   │   ├── backstage/     # CSR — 後台管理
 │   │   └── login.vue      # blank layout
 │   ├── stores/            # Pinia 狀態管理
 │   │   └── auth.ts
@@ -466,8 +532,8 @@ export default defineNuxtConfig({
   routeRules: {
     '/':            { prerender: true },    // SSG
     '/about':       { prerender: true },    // SSG
-    '/blog/**':     { isr: 3600 },          // ISR
-    '/admin/**':    { ssr: false },          // CSR
+    '/posts/**':    { swr: 3600 },          // SWR
+    '/backstage/**': { ssr: false },         // CSR
     '/api/**':      { cors: true },         // API
   },
 
@@ -505,8 +571,9 @@ export default defineNuxtConfig({
 | Phase 3：Middleware & Layouts | 1-2 天 | 4-7 天 |
 | Phase 4：混合渲染 & Modules | 2-3 天 | 6-10 天 |
 | Phase 5：Cloudflare 整合 | 3-4 天 | 9-14 天 |
-| Phase 6：實戰專案 | 5-7 天 | 14-21 天 |
-| **總計** | **14-21 天** | — |
+| Phase 4.5：工程化補強 | 2-4 天 | 11-18 天 |
+| Phase 6：實戰專案 | 5-7 天 | 16-25 天 |
+| **總計** | **16-25 天** | — |
 
 ---
 
