@@ -2,27 +2,27 @@
 	"d1_databases": [
 		{
 			"binding": "DB",
-			"database_name": "demo-db",
-			"database_id": "2da61220-5185-4781-bd5b-9c19f16a6167",
-			"remote": true
+			"database_name": "your-d1-database-name",
+			"database_id": "your-d1-database-id",
+			"remote": false
 		}
 	],
 	"r2_buckets": [
 		{
 			"binding": "MY_BUCKET",
-			"bucket_name": "nuxt-demo-bucket",
-			"remote": true
+			"bucket_name": "your-r2-bucket-name",
+			"remote": false
 		}
 	],
 	"vectorize": [
 		{
 			"binding": "VECTORIZE",
-			"index_name": "demo-docs-index",
-			"remote": true
+			"index_name": "your-vectorize-index-name",
+			"remote": false
 		}
 	],
 	"ai": {
 		"binding": "AI",
-		"remote": true
+		"remote": false
 	}
 }

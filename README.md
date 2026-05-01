@@ -1,94 +1,103 @@
-# Nuxt Minimal Starter
+# Nuxt Fullstack Demo (Learning Project)
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
-
-## Setup
-
-Make sure to install dependencies:
-
-```bash
-# npm
-npm install
-
-# pnpm
-pnpm install
-
-# yarn
-yarn install
-
-# bun
-bun install
-```
-
-## Development Server
-
-Start the development server on `http://localhost:3000`:
-
-```bash
-# npm
-npm run dev
-
-# pnpm
-pnpm dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
-```
-
-## Production
-
-Build the application for production:
-
-```bash
-# npm
-npm run build
-
-# pnpm
-pnpm build
-
-# yarn
-yarn build
-
-# bun
-bun run build
-```
-
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+一個「可學習、可實作」的 Nuxt 全端範例專案：  
+`Nuxt 4 + TailwindCSS + Nitro API + Cloudflare (D1/R2/Vectorize/AI)`
 
 ---
 
-## 📜 專案可用指令說明 (Scripts)
+## 一秒看懂這個專案
 
-本專案已經設定了 Cloudflare 的部署環境，以下是常用的 `npm run` 指令備忘錄：
+- 前端頁面：`app/pages/*`
+- 後端 API：`server/api/*`
+- 資料庫與雲端資源：透過 `wrangler.json` bindings
+- 目標：用 Nuxt 完整走一次「頁面 + API + 雲端資源」實戰流程
 
-### 👨‍💻 日常開發
-* **`npm run dev`**：啟動標準本地開發伺服器（無 Cloudflare 綁定）。
-* **`npm run dev:cf`**：啟動 Wrangler 代理模式的開發伺服器。支援熱更新 (HMR)，同時也能讀取 D1/R2 等 Cloudflare 綁定。
+---
 
-### 📦 打包 (Build)
-* **`npm run build`**：將 Nuxt 打包。由於設定了 `cloudflare_pages` preset，打包產物會自動轉換為 Cloudflare 格式並放在 `.output/public` 資料夾。
-* **`npm run generate`**：全靜態打包 (SSG)。（僅產出靜態 HTML/JS，不會啟動 Server API）。
+## 3 步快速開始（無腦版）
 
-### ☁️ Cloudflare 部署專用指令
-*(執行以下指令前，請確保已經先執行過 `npm run build`)*
-* **`npm run cf:preview`**：使用 Wrangler 在本地端模擬 Cloudflare 環境跑起你的專案，用來上線前做最後測試。
-* **`npm run cf:deploy`**：一鍵將打包好的網站上傳到 Cloudflare Pages 正式上線！
+1. 安裝依賴
+```bash
+npm install
+```
+
+2. 啟動開發環境
+```bash
+npm run dev
+```
+
+3. 開瀏覽器
+- [http://localhost:3000](http://localhost:3000)
+
+---
+
+## 專案架構圖
+
+```text
+nuxt-demo/
+├─ app/
+│  ├─ pages/          # 前端頁面（首頁、posts、backstage...）
+│  ├─ layouts/        # 版面配置
+│  ├─ components/     # 共用元件
+│  ├─ composables/    # 前端邏輯封裝
+│  └─ assets/css/     # Tailwind 入口與全域樣式
+├─ server/
+│  └─ api/            # Nitro API（db/bucket/vectors/...）
+├─ migrations/        # D1 SQL migration
+├─ docs/              # 學習文件與操作指南
+├─ nuxt.config.ts     # 混合渲染 + runtime config
+└─ wrangler.json      # Cloudflare bindings（目前為範例值）
+```
+
+---
+
+## 主要路由與渲染策略
+
+目前 `nuxt.config.ts` 設定：
+
+- `/` -> `prerender: true`（SSG）
+- `/posts/**` -> `swr: 3600`（SWR）
+- `/backstage/**` -> `ssr: false`（CSR）
+- `/api/**` -> `cors: true`
+
+---
+
+## 常用指令
+
+- `npm run dev`：本地 Nuxt 開發
+- `npm run build`：一般 build
+- `npm run preview`：預覽 build 結果
+- `npm run build:cf`：Cloudflare Pages preset build
+- `npm run cf:preview`：Wrangler 本地模擬（需正確 bindings）
+- `npm run cf:deploy`：部署到 Cloudflare Pages
+
+---
+
+## docs 閱讀順序（推薦）
+
+1. `docs/nuxt_fullstack_learning_plan.md`  
+   - 你目前學習主線與階段進度
+2. `docs/tailwindcss_guide.md`  
+   - Tailwind 實作重點（含 Preflight reset 說明）
+3. `docs/cloudflare_d1_guide.md`
+4. `docs/cloudflare_r2_guide.md`
+5. `docs/cloudflare_vectorize_guide.md`
+
+---
+
+## Cloudflare 使用注意（重要）
+
+- `wrangler.json` 目前是**範例值**（可公開）
+- 若要連真實資源，請自行填入你的：
+  - `database_name` / `database_id`
+  - `bucket_name`
+  - `index_name`
+- 請勿把真實 token / secret 提交到 git
+
+---
+
+## 這個 repo 適合誰
+
+- 想從 Vue/Nuxt 前端進入全端開發的人
+- 想學 Nuxt + Nitro + Cloudflare 基礎整合的人
+- 想把學習步驟文件化、可重複練習的人
