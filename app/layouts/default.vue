@@ -1,16 +1,25 @@
 <template>
-  <div>
-    <AppHeader/>
+  <div class="layout-default">
+    <AppHeader />
 
-    <main style="padding: 20px; min-height: 80vh;">
-<!--      每一頁不同會注入這裡-->
+    <main class="container">
       <slot />
     </main>
+
+    <footer class="app-footer">
+      <p>&copy; 2026 Nuxt Fullstack Demo</p>
+    </footer>
   </div>
-
-<!--  共用 footer-->
-  <footer style="text-align: center; padding: 10px; background: #f5f5f5;">
-
-    <p> 2026  My Nuxt Demo </p>
-  </footer>
 </template>
+
+<style scoped>
+.container {
+  min-height: 70vh;
+  padding: 2rem;
+}
+.app-footer {
+  padding: 1rem;
+  text-align: center;
+  background: #f9f9f9;
+}
+</style>
