@@ -11,7 +11,8 @@
     "postinstall": "nuxt prepare",
     "build:cf": "nuxt build --preset cloudflare_pages",
     "cf:preview": "wrangler pages dev dist",
-    "cf:deploy": "wrangler pages deploy dist"
+    "cf:deploy": "wrangler pages deploy dist",
+    "cf:delete": "wrangler pages project delete nuxt-demo"
   },
   "dependencies": {
     "@nuxtjs/tailwindcss": "^6.14.0",

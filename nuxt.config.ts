@@ -29,7 +29,7 @@ export default defineNuxtConfig({
   // 會去抓 .env 裡面 NUXT 開頭的變數（所以下面命名需要省略）
   runtimeConfig: {
     fileUploadMaxSize: 1048576,
-    public:{
+    public: {
       appName: '',
       appDescription: '',
     },

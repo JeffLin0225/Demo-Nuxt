@@ -337,18 +337,19 @@ export default defineEventHandler(async (event) => {
 
 練習 5-4：R2 檔案儲存
 ├── ✅ 建立 server/api/bucket/upload.post.ts（上傳檔案到 R2）
+├── ✅ 效能優化：從 readFormData 改為 readRawBody 提升上傳穩定性與速度
 ├── ✅ 建立 server/api/bucket/index.get.ts（列出檔案）
 ├── ✅ 建立 app/composables/useBucketApi.ts（前端 API 封裝）
 ├── ✅ 建立 app/utils/fileNameCleaning.ts（檔名清洗防注入）
 ├── ✅ 透過 useBucket(event) 共用工具存取 MY_BUCKET
-└── ✅ 驗證：上傳與列表正常（下載路由尚未建立）
+└── ✅ 驗證：上傳與列表正常（支援 20MB 大檔案）
 
 練習 5-5：部署到 Cloudflare
-├── npx nuxi build --preset=cloudflare_pages
-├── npx wrangler pages deploy dist/
-├── 在 Cloudflare Dashboard 設定 production bindings
-├── 執行 D1 migrations：npx wrangler d1 migrations apply my-db
-└── ✅ 驗證：線上網站可正常存取 D1 和 R2
+├── ✅ npx nuxi build --preset=cloudflare_pages
+├── ✅ npx wrangler pages deploy dist/
+├── ✅ 在 Cloudflare Dashboard 設定 production bindings
+├── ✅ 執行 D1 migrations：npx wrangler d1 migrations apply demo-db --remote
+└── ✅ 驗證：線上網站可正常存取 D1、R2 與 Vectorize
 
 練習 5-6：Vectorize 向量資料庫操作 (AI 擴充)
 ├── ✅ 建立 Vectorize 索引：npx wrangler vectorize create demo-docs-index --dimensions=1024 --metric=cosine
@@ -458,7 +459,8 @@ export default defineEventHandler(async (event) => {
 - [x] TailwindCSS 完成安裝與全域接線（`@nuxtjs/tailwindcss` + `main.css`）
 - [x] 釐清並修正 Preflight reset 導致原生 `a` / `button` 樣式消失
 - [x] 首頁與後台上傳頁改為 Tailwind 風格，並保留練習可讀性
-- [x] 專案路由主線統一為 `posts`，移除 `blog` 練習路由
+- [x] R2 上傳效能優化：實作二進位傳輸，解決大檔案上傳緩慢與 Stream Lock 問題
+- [x] 成功完成一次完整的 Cloudflare Pages 刪除與重建部署流程
 - [x] `routeRules` 目前採混合策略：`/posts/**` SWR、`/backstage/**` CSR、其餘預設 SSR
 
 ---

@@ -1,16 +1,16 @@
-import {useDB} from "../../../app/utils/useDB";
+import { useDB } from "../../../app/utils/useDB";
 
 /**
  * 新增使用者
  * */
-export  default  defineEventHandler(async (event)=> {
+export default defineEventHandler(async (event) => {
 
     // 使用 untils 的共用模組
     const db = useDB(event)
 
     const body = await readBody(event);
     if (!body.user_name || !body.user_email) {
-        throw  createError({
+        throw createError({
             statusCode: 400,
             statusMessage: 'user_name and user_email are required',
         });
@@ -26,7 +26,7 @@ export  default  defineEventHandler(async (event)=> {
             message: 'User created successfully.',
             result
         }
-    } catch (err:any) {
+    } catch (err: any) {
         throw createError({
             statusCode: 500,
             statusMessage: err.message,
