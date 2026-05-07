@@ -251,10 +251,14 @@ export default defineEventHandler(async (event) => {
 ├── 用「檢視原始碼」比較 SSR vs CSR 頁面的 HTML
 └── ✅ 驗證：SSR 頁面有完整 HTML，CSR 頁面只有空殼
 
-練習 4-2：安裝 Pinia 狀態管理
-├── npx nuxi module add pinia
-├── 建立 app/stores/counter.ts（defineStore）
-└── ✅ 驗證：跨頁面狀態共享正常
+練習 4-2：SEO 與 Meta 標籤優化 (useSeoMeta)
+├── ✅ 建立 app/pages/index.vue 的 Meta 資訊
+├── ✅ 設定 OG Image、Title 與 Description
+├── ✅ 學習點：`useSeoMeta` 是「隱形名片」，主要供搜尋引擎 (Google) 與社交平台 (Line/FB) 讀取
+└── ✅ 驗證方法：
+    1. 觀察瀏覽器分頁標題 (Tab Title)
+    2. 使用瀏覽器「檢視網頁原始碼」查看 `<head>` 內的 `<meta>` 標籤
+    3. 透過 SSR 確保爬蟲能直接抓取到這些資訊
 
 練習 4-3：安裝 @nuxt/image
 ├── npx nuxi module add image
@@ -262,16 +266,23 @@ export default defineEventHandler(async (event) => {
 └── ✅ 驗證：圖片自動優化（format, quality）
 
 練習 4-4：安裝 @nuxt/icon
-├── npx nuxi module add icon
-├── 使用 <Icon name="heroicons:home" />
+├── ✅ 安裝：npx nuxi module add icon
+├── ✅ 使用：<Icon name="heroicons:home" />
 └── ✅ 驗證：圖示正確顯示
+
+練習 4-5：全域錯誤處理 (Exception Handler)
+├── ✅ 建立 app/error.vue
+├── ✅ 實作 404 與 500 的差異化顯示
+├── ✅ 實作 clearError({ redirect: '/' }) 清除狀態
+└── ✅ 驗證：手動輸入錯誤網址或點擊測試按鈕會觸發跳轉
 ```
 
 ### 階段驗收標準
 
 - [x] `routeRules` 正確設定 3 種以上渲染模式
 - [ ] Pinia store 跨頁面狀態共享正常
-- [ ] 至少安裝 2 個 Nuxt Module 並正常使用
+- [x] 至少安裝 2 個 Nuxt Module 並正常使用
+- [x] 全域錯誤頁面 (error.vue) 正常運作
 
 ---
 
@@ -404,8 +415,8 @@ export default defineEventHandler(async (event) => {
 - [x] Vectorize 向量寫入正常
 - [x] R2 檔案上傳/列表正常
 - [x] Vectorize 語意搜尋 API 完成並驗證（D1 + AI 雙軌輸出）
-- [ ] 網站成功部署到 Cloudflare，可透過公開 URL 存取
-- [ ] 確認所有資源都在免費額度內
+- [x] 網站成功部署到 Cloudflare，可透過公開 URL 存取
+- [x] 確認所有資源都在免費額度內
 
 ---
 
