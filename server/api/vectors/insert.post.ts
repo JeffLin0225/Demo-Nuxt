@@ -12,9 +12,11 @@ import { useAi } from "~/utils/useAi";
 
 export default defineEventHandler(async (event) => {
 
-    const body = await readBody(event);
-    if (!body.content || body.content.trim() === '') {
-        throw createError({ statusCode: 403, statusMessage: '請輸入文字內容' });
+    const body = await readBody(event) || {};
+    const content = typeof body.content === 'string' ? body.content.trim() : '';
+
+    if (!content) {
+        throw createError({ statusCode: 400, statusMessage: '請輸入文字內容' });
     }
 
     // 取得服務
@@ -33,7 +35,7 @@ export default defineEventHandler(async (event) => {
         const embeddingResponse = await ai.run(
             "@cf/baai/bge-m3",
             {
-                text: [body.content]
+                text: [content]
             }
         );
 
@@ -44,7 +46,7 @@ export default defineEventHandler(async (event) => {
             id: id,
             values: values,
             metadata: {
-                category: body.category || "general",  // 短標籤存 metadata
+                category: typeof body.category === 'string' ? body.category : "general",  // 短標籤存 metadata
             }
         }])
 
@@ -52,7 +54,7 @@ export default defineEventHandler(async (event) => {
         await db.prepare(
             "INSERT INTO documents (id, content) VALUES (?, ?)"
         )
-            .bind(id, body.content)
+            .bind(id, content)
             .run();
 
 
@@ -65,6 +67,6 @@ export default defineEventHandler(async (event) => {
 
     } catch (err: any) {
         console.error('插入文件失敗:', err);
-        throw createError({ statusCode: 500, message: '插入文件失敗' });
+        throw createError({ statusCode: 500, statusMessage: '插入文件失敗' });
     }
 })

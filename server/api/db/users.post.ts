@@ -8,8 +8,11 @@ export default defineEventHandler(async (event) => {
     // 使用 untils 的共用模組
     const db = useDB(event)
 
-    const body = await readBody(event);
-    if (!body.user_name || !body.user_email) {
+    const body = await readBody(event) || {};
+    const userName = typeof body.user_name === 'string' ? body.user_name.trim() : '';
+    const userEmail = typeof body.user_email === 'string' ? body.user_email.trim() : '';
+
+    if (!userName || !userEmail) {
         throw createError({
             statusCode: 400,
             statusMessage: 'user_name and user_email are required',
@@ -18,7 +21,7 @@ export default defineEventHandler(async (event) => {
 
     try {
         const result = await db.prepare(' INSERT INTO users (user_name, user_email) VALUES (?,?) ')
-            .bind(body.user_name, body.user_email)
+            .bind(userName, userEmail)
             .run();
 
         return {
