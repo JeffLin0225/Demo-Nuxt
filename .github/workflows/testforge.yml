@@ -4,6 +4,7 @@ on:
     branches: [main]
   push:
     branches: [main]
+  workflow_dispatch:
 
 permissions:
   contents: write        # 允許推送到 testforge/reports 分支
