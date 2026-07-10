@@ -1,0 +1,3 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`index.vue > 渲染結果應與快照一致 1`] = `""`;

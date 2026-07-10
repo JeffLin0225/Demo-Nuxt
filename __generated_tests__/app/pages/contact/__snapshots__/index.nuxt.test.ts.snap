@@ -1,0 +1,12 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`index.vue > 渲染結果應與快照一致 1`] = `
+"<div style="border: 2px double orangered;">
+  <p style="background-color: rgb(177, 236, 153);">測試是否可以不build 去動態改變 config 數值</p>
+  <p>網站名稱： </p>
+  <p>網站描述： </p>
+  <p>API密鑰： </p>
+  <p>(這個要build才可以改變)API密鑰測試： publickeyabc1234</p>
+  <p>(這個要build才可以改變, 沒加VITE看不到)API密鑰測試： </p>
+</div>"
+`;
