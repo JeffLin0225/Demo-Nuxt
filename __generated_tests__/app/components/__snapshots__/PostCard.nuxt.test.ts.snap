@@ -1,8 +1,0 @@
-// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
-
-exports[`PostCard.vue > 渲染結果應與快照一致 1`] = `
-"<div id="42" title="Test Value" body="Test Value">
-  <h3> # </h3>
-  <p></p>
-</div>"
-`;

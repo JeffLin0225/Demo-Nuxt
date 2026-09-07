@@ -1,7 +1,7 @@
 // ============================================
 // 🧪 TS 自動產生的測試 — by TestForge
 // 來源：formateData.ts
-// 產生時間：2026-07-10T09:38:38.947Z
+// 產生時間：2026-09-07T06:46:19.742Z
 // ============================================
 import { describe, it, expect } from 'vitest';
 import { formatData } from '../../../app/utils/formateData';

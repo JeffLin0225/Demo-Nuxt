@@ -1,7 +1,7 @@
 // ============================================
 // 🧪 TS 自動產生的測試 — by TestForge
 // 來源：useCounter.ts
-// 產生時間：2026-07-10T09:38:38.929Z
+// 產生時間：2026-09-07T06:46:19.723Z
 // ============================================
 import { describe, it, expect } from 'vitest';
 import { useCounter } from '../../../app/composables/useCounter';
